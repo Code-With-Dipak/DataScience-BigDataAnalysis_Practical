@@ -1,0 +1,97 @@
+//Data Wrangling in Python//
+Data Wrangling is a crucial topic for Data Science and Data Analysis.
+Pandas Framework of Python is used for Data Wrangling. 
+Pandas is an open-source library in Python specifically developed for Data Analysis and Data Science.
+It is used for processes like data sorting or filtration, Data grouping, etc.
+
+1)Data exploration: In this process, the data is studied, analyzed, and understood by visualizing representations of data.
+program:-
+          # Import pandas package
+import pandas as pd
+
+# Assign data
+data = {'Name': ['Jai', 'Princi', 'Gaurav', 
+				'Anuj', 'Ravi', 'Natasha', 'Riya'],
+		'Age': [17, 17, 18, 17, 18, 17, 17],
+		'Gender': ['M', 'F', 'M', 'M', 'M', 'F', 'F'],
+		'Marks': [90, 76, 'NaN', 74, 65, 'NaN', 71]}
+
+# Convert into DataFrame
+df = pd.DataFrame(data)
+
+# Display data
+df
+OUTPUT:-  
+Name	Age	Gender	Marks
+0	Jai	17	M	90
+1	Princi	17	F	76
+2	Gaurav	18	M	NaN
+3	Anuj	17	M	74
+4	Ravi	18	M	65
+5	Natasha	17	F	NaN
+6	Riya	17	F	71
+
+  2)Dealing with missing values: Most of the datasets having a vast amount of data contain missing values of NaN, 
+    they are needed to be taken care of by replacing them with mean, mode, 
+   the most frequent value of the column, or simply by dropping the row having a NaN value.
+   Program:-
+   # Compute average
+c = avg = 0
+for ele in df['Marks']:
+	if str(ele).isnumeric():
+		c += 1
+		avg += ele
+avg /= c
+
+# Replace missing values
+df = df.replace(to_replace="NaN",
+				value=avg)
+
+# Display data
+df
+OUTPUT:-	Name	Age	Gender	Marks
+0	Jai	17	M	90.0
+1	Princi	17	F	76.0
+2	Gaurav	18	M	75.2
+3	Anuj	17	M	74.0
+4	Ravi	18	M	65.0
+5	Natasha	17	F	75.2
+6	Riya	17	F	71.0
+
+
+3)Data Replacing in Data Wrangling:-in the GENDER column, we can replace the Gender column data by categorizing them into different numbers.
+Program:-# Categorize gender
+df['Gender'] = df['Gender'].map({'M': 0, 
+								'F': 1, }).astype(float)
+
+# Display data
+df
+
+OUTPUT:-	Name	Age	Gender	Marks
+0	Jai	17	0.0	90.0
+1	Princi	17	1.0	76.0
+2	Gaurav	18	0.0	75.2
+3	Anuj	17	0.0	74.0
+4	Ravi	18	0.0	65.0
+5	Natasha	17	1.0	75.2
+6	Riya	17	1.0	71.0
+
+
+4)Filtering data in Data Wrangling:-suppose there is a requirement for the details regarding name, gender, and marks of the top-scoring students. 
+Here we need to remove some using the pandas slicing method in data wrangling from unwanted data.
+program:-
+          # Filter top scoring students
+df = df[df['Marks'] >= 75].copy()
+
+# Remove age column from filtered DataFrame
+df.drop('Age', axis=1, inplace=True)
+
+# Display data
+df
+
+OUTPUT:-	
+Name	Gender	Marks
+0	Jai	0.0	90.0
+1	Princi	1.0	76.0
+2	Gaurav	0.0	75.2
+5	Natasha	1.0	75.2
